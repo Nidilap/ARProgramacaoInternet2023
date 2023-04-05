@@ -32,15 +32,20 @@ class Database {
             
             // executando e retornando
             $stmt->execute();
+            
+            // $testes = $stmt->debugDumpParams();
             try {
                 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            }catch(PDOException $e){
+                if(empty($result) && $stmt->rowCount() > 0) { // Caso o array de resultados esteja vazio, significa que é um insert, delete ou update, setar como true.
+                    $result = true;
+                }
+            } catch(PDOException $e){
                 $result = true; // é um insert ou um delete ou um update
             }
             
             return $result;
         }catch(PDOException $e){
-            echo "Connection failed: " . $e->getMessage();
+            echo "Erro de conexão: " . $e->getMessage();
         }
     }
 

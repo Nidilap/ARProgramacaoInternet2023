@@ -1,7 +1,7 @@
 <?php
 require_once "Database.php";
 
-class Usuario{
+class Usuario implements JsonSerializable {
 
     private $idUsuario;
     private $email;
@@ -30,17 +30,31 @@ class Usuario{
     }
 
     public function __get($property) {
-        var_dump(__METHOD__);
         if (property_exists($this, $property)) {
             return $this->$property;
         }
     }
 
     public function __set($property, $value) {
-        var_dump(__METHOD__);
         if (property_exists($this, $property)) {
             $this->$property = $value;
         }
+    }
+
+    public function jsonSerialize()
+    {
+        return array(
+            "idUsuario" => $this->idUsuario,
+            "email" => $this->email,
+            "usuario" => $this->usuario,
+            "nome" => $this->nome,
+            "idCidade" => $this->idCidade,
+            "endereco" => $this->endereco,
+            "imagem" => $this->imagem,
+            "nascimento" => $this->nascimento,
+            "descricao" => $this->descricao,
+            "banner" => $this->banner
+        );
     }
 }
 
@@ -49,9 +63,9 @@ function insertUsuario($usuario){
 
     unset($parameters);
     $parameters = array(
-        "email" => $usuario->__get("email"),
-        "usuario" => $usuario->__get("usuario"),
-        "senha" => $usuario->__get("senha"),
+        "email" => $usuario->email,
+        "usuario" => $usuario->usuario,
+        "senha" => $usuario->senha,
         "nome" => $usuario->nome,
         "idCidade" => $usuario->idCidade,
         "endereco" => $usuario->endereco,

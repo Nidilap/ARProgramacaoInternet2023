@@ -51,7 +51,7 @@ function validateField(item) {
         } else {
             item.siblings().removeClass("invalid");
         }
-    } else if (type === "select") {
+    } else if (type === "select" || item.prop("tagName").toLowerCase() === 'select') {
         if (value === "") { //email validator
             invalid = true;
             item.siblings().addClass("invalid"); // perche bootstrap usa un contenitore con l'input e il div di output quindi inserisco invalid a tutti i siblings (override del metodo sotto)
@@ -89,13 +89,13 @@ jQuery.document_ready (function() {
         validateField($(this));
     });
 
-    $('.md-select ul li').on('click', function() {
-        setTimeout(
-            function() {
-                validateField($(".md-select"));
-            },
-            100);
-    });
+    // $('.md-select ul li').on('click', function() {
+    //     debugger
+    //     console.log("entrou aqui")
+    //     setTimeout(
+    //         ,
+    //     100);
+    // });
 
     $('input[type="file"]').on('change', function() {
         var filename = $(this).val().replace(/C:\\fakepath\\/i, '');

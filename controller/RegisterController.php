@@ -2,7 +2,7 @@
 
 class RegisterController{
     private $viewRegister = "view/registerView.php";
-    private $successPath = "success.php";
+    private $successPath = "view/homeView.php";
     private $modelEstado = "model/DAOestado.php";
     private $modelCidade = "model/DAOcidade.php";
     private $modelUsuario = "model/DAOusuario.php";
@@ -31,7 +31,8 @@ class RegisterController{
 
     //viene usata per encodare in formato json un array tra due stringhe
     private function JsonEncoder($arr){
-        return "registerController".json_encode($arr)."registerController";
+        $jsonEncode = json_encode($arr);
+        return "registerController".$jsonEncode."registerController";
     }
 
     public function check(){
@@ -40,15 +41,19 @@ class RegisterController{
             session_start();
             $this->requireDaoUsuario();
             $this->requireDaoCidade();
-            $usuario = new Usuario($_POST['usuario-usuario'], $_POST['usuario-email'], hash('sha256', $_POST['usuario-senha']), $_POST['usuario-nome'], getCidade(array("nome" => $_POST['usuario-cidade']))[0]->idCidade, $_POST['usuario-endereco'], $_POST['usuario-imagem'], $_POST['usuario-nascimento'], "", "", "");
 
-            if (count(getUsuarios(array('email' => $usuario->__get("email")))) > 0) { //ho un riscontro qundi esiste gia un utente con quella mail
-                $popup = 'Mail already used';
+            $cidade2 = $_POST['usuario-cidade'];
+            $cidadeSelecionada = getCidade(array("idCidade" => $_POST['usuario-cidade']))[0]->idCidade;
+
+            $usuario = new Usuario(null, $_POST['usuario-email'], $_POST['usuario-usuario'], hash('sha256', $_POST['usuario-senha']), $_POST['usuario-nome'], $cidadeSelecionada, $_POST['usuario-endereco'], "", $_POST['usuario-nascimento'], "", "");
+
+            if (count(getUsuarios(array('email' => $usuario->email))) > 0) { //ho un riscontro qundi esiste gia un utente con quella mail
+                $popup = 'E-mail já em uso.';
                 //include the view
                 $this->loadPage($popup);
             } else {
-                if (count(getUsuarios(array('usuario' => $usuario->__get("usuario")))) > 0) { //ho un riscontro qundi esiste gia un utente con quel usuario
-                    $popup = 'Usuario already used';
+                if (count(getUsuarios(array('usuario' => $usuario->usuario))) > 0) { //ho un riscontro qundi esiste gia un utente con quel usuario
+                    $popup = 'Usuário já estava registrado.';
                     //include the view
                     $this->loadPage($popup);
                 } else {
@@ -56,12 +61,12 @@ class RegisterController{
                     $result = insertUsuario($usuario);
 
                     if ($result === false) {
-                        $popup = ':( Something bad happend';
+                        $popup = ':( Ocorreu um problema ao cadastrar';
                         $this->loadPage($popup); //include la view register
                     } else {
                         //echo("utente inserito");
-                        $_SESSION['usuario'] = $usuario->__get("usuario");
-                        $_SESSION['senha'] = $usuario->__get("senha");
+                        $_SESSION['usuario'] = $usuario->usuario;
+                        $_SESSION['senha'] = $usuario->senha;
 
                         header("Location: " . $this->successPath);
                         die(); //apre la nuova pagina
@@ -69,20 +74,21 @@ class RegisterController{
                 }
             }
         } else {
-            $this->loadPage("error incorrect program logic"); //non è passato per la logica corretta
-            //the passed message is only for debug
+            $this->loadPage("Erro.");
         }
     }
 
     public function getEstadosRequeridos(){
         $this->requireDaoEstado();
         $this->requireDaoCidade();
+
         //trovo il suo codice
-        $codigoEstado = getEstado(array("nome" => $_POST["estado"]))[0]->__get("idEstado");
+        $codigoEstado = getEstado(array("idEstado" => $_POST["estado"]))[0]->idEstado;
         //ottengo le cidade con quel codice
         $cidade =  getCidade(array("idEstado" => $codigoEstado));
         //formatto i dati in json
-        echo $this->JsonEncoder($cidade);
+        $dadosEncodados = $this->JsonEncoder($cidade);
+        echo $dadosEncodados;
     }
 }
 

@@ -1,16 +1,37 @@
 <?php
 require_once "Database.php";
 
-class Cidade{
+class Cidade implements JsonSerializable {
 
-    public $idCidade;
-    public $nome;
-    public $idEstado;
+    private $idCidade;
+    private $nome;
+    private $idEstado;
     
     function __construct($idCidade, $nome, $idEstado){
         $this->idCidade = $idCidade;
         $this->nome = $nome;
         $this->idEstado = $idEstado;
+    }
+
+    public function __get($property) {
+        if (property_exists($this, $property)) {
+            return $this->$property;
+        }
+    }
+
+    public function __set($property, $value) {
+        if (property_exists($this, $property)) {
+            $this->$property = $value;
+        }
+    }
+
+    public function jsonSerialize()
+    {
+        return array(
+            "idCidade" => $this->idCidade,
+            "nome" => $this->nome,
+            "idEstado" => $this->idEstado
+        );
     }
 }
 

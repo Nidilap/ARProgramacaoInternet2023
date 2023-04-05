@@ -2,7 +2,7 @@
 
 class LoginController {
     private $viewLogin = "view/loginView.php";
-    private $successPath = "success.php";
+    private $successPath = "view/homeView.php";
     private $modelEstado = "model/DAOestado.php";
     private $modelUsuario = "model/DAOusuario.php";
 

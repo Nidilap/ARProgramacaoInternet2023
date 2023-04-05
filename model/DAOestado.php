@@ -1,7 +1,7 @@
 <?php
 require_once "Database.php";
 
-class Estado{
+class Estado implements JsonSerializable {
 
     private $idEstado;
     private $nome;
@@ -15,17 +15,25 @@ class Estado{
     }
 
     public function __get($property) {
-        var_dump(__METHOD__);
         if (property_exists($this, $property)) {
             return $this->$property;
         }
     }
 
     public function __set($property, $value) {
-        var_dump(__METHOD__);
         if (property_exists($this, $property)) {
             $this->$property = $value;
         }
+    }
+
+    
+    public function jsonSerialize()
+    {
+        return array(
+            "idEstado" => $this->idEstado,
+            "nome" => $this->nome,
+            "sigla" => $this->sigla
+        );
     }
 }
 

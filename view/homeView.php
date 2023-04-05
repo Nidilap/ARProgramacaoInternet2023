@@ -1,13 +1,13 @@
-<!doctype html>
 <?php
 	session_start();
 	$usuario = $_SESSION['usuario'];
-	$ = $_SESSION[''];
+	// $senha = $_SESSION['senha'];
 	//var_dump( $_SESSION );
 	session_destroy();
 	//echo($usuario.", ".$);
 	echo("Welcome ".$usuario);
 ?>
+<!doctype html>
 <html>
 <head>
 <meta charset="utf-8">

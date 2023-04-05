@@ -76,22 +76,6 @@
               </div>
           </div>
       </div>
-      <div class="row">
-          <div class="col">
-            <div class="mx-auto" style="width: 75px;">
-              <label>
-                <input name="chosenDB" id="pdo" type="radio" value="pdo" checked /> <span>PDO</span>
-              </label>
-            </div>
-          </div>
-          <div class="col">
-            <div class="mx-auto" style="width: 75px;">
-              <label>
-                <input name="chosenDB" id="msqli" type="radio" value="msqli" /> <span>MSQLi</span>
-              </label>
-            </div>
-          </div>
-      </div>
       <div class="row btn-color-cyan btn-txt-color-light btn-txt-color-light-hover">
         <button type="submit" name="submit" class="mx-auto btn waves-button waves-float waves-teal radius-50" id="startValidate">Login</button>
       </div>
