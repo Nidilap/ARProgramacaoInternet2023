@@ -33,7 +33,6 @@ class RegisterController extends MainController {
         require_once $this->modelCidade;
     }
 
-    //viene usata per encodare in formato json un array tra due stringhe
     private function JsonEncoder($arr){
         $jsonEncode = json_encode($arr);
         return "RegisterController".$jsonEncode."RegisterController";
@@ -49,24 +48,22 @@ class RegisterController extends MainController {
 
             $usuario = new Usuario(null, $_POST['usuario-email'], $_POST['usuario-usuario'], hash('sha256', $_POST['usuario-senha']), $_POST['usuario-nome'], $cidadeSelecionada, $_POST['usuario-endereco'], "", $_POST['usuario-nascimento'], "", "");
 
-            if (count(getUsuarios(array('email' => $usuario->email))) > 0) { //ho un riscontro qundi esiste gia un utente con quella mail
+            if (count(getUsuarios(array('email' => $usuario->email))) > 0) {
                 $this->popup = 'E-mail já em uso.';
-                //include the view
+                //Inclui a view novamente com o erro do popup
                 $this->loadPage($this->popup);
             } else {
-                if (count(getUsuarios(array('usuario' => $usuario->usuario))) > 0) { //ho un riscontro qundi esiste gia un utente con quel usuario
+                if (count(getUsuarios(array('usuario' => $usuario->usuario))) > 0) {
                     $this->popup = 'Usuário já estava registrado.';
-                    //include the view
                     $this->loadPage($this->popup);
                 } else {
-                    //procedo ad inserire l'utente nel database
+                    // Insere o usuário no banco
                     $result = insertUsuario($usuario);
 
                     if ($result === false) {
                         $this->popup = ':( Ocorreu um problema ao cadastrar';
-                        $this->loadPage($this->popup); //include la view register
+                        $this->loadPage($this->popup);
                     } else {
-                        //echo("utente inserito");
                         $_SESSION['usuario'] = $usuario->usuario;
                         $_SESSION['senha'] = $usuario->senha;
 

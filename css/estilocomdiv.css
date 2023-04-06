@@ -118,3 +118,14 @@ button.bg-color-inverse:focus {
 .navbarPrincipal > a{
     color: white !important;
 }
+
+.imagemProduto {
+    max-height: 200px;
+    max-width: 200px;
+}
+
+.wrapperImgProduto {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

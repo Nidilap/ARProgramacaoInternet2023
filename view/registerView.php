@@ -159,7 +159,6 @@
                       estado: $("#usuario-estado").val(),
                   },
                   function(data, status) {
-                      debugger
                       let temp = data.match(new RegExp("RegisterController(.*)RegisterController"));
                       data = temp !== null ? temp[1] : null;
                       // pega os dados e salva numa lista

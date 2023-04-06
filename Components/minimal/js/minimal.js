@@ -89,14 +89,6 @@ jQuery.document_ready (function() {
         validateField($(this));
     });
 
-    // $('.md-select ul li').on('click', function() {
-    //     debugger
-    //     console.log("entrou aqui")
-    //     setTimeout(
-    //         ,
-    //     100);
-    // });
-
     $('input[type="file"]').on('change', function() {
         var filename = $(this).val().replace(/C:\\fakepath\\/i, '');
         $(this).siblings(".custom-file-label").text(filename);

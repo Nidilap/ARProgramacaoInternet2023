@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="Components/bootstrap/4.2/css/bootstrap.css">
     <script src="Components/bootstrap/4.2/js/bootstrap.min.js"></script>
     
-    <link rel="stylesheet" href="../../css/generalstyles.css"><!-- block-selection-->
+    <link rel="stylesheet" href="css/generalstyles.css"><!-- block-selection-->
     <link rel="stylesheet" href="css/estilocomdiv.css">
     <link rel="stylesheet" href="css/util.css">
     
@@ -26,8 +26,6 @@
     <!-- minimal Framework -->
     <link rel="stylesheet" href="Components/minimal/css/minimal.css">
     <script type="text/javascript" src="Components/minimal/js/minimal.js"></script>
-    <!-- scrollbar -->
-    <link rel="stylesheet" href="Components/customScrollbar/css/customScrollbar.css">
     <!-- radio -->
     <link rel="stylesheet" href="Components/radio/css/radio.css">
     <!-- file -->
