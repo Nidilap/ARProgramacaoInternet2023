@@ -1,13 +1,13 @@
 <?php
 
-class LoginController {
+class LoginController extends MainController {
     private $viewLogin = "view/loginView.php";
     private $successPath = "view/homeView.php";
     private $modelEstado = "model/DAOestado.php";
     private $modelUsuario = "model/DAOusuario.php";
 
     public function loadPage($popup){
-        include ($this->viewLogin);
+        parent::loadPage($this->viewLogin);
     }
 
     private function requireDaoUsuario(){
@@ -20,7 +20,6 @@ class LoginController {
 
     public function check(){
         if(isset($_POST['submit'])){ //controllo per sicurezza
-            session_start();
             $this->requireDaoUsuario();
         
             $usuario_usuario =  $_POST['usuario-usuario'];
@@ -32,16 +31,14 @@ class LoginController {
                 $_SESSION['usuario'] = $usuario_usuario;
                 $_SESSION['senha'] = $usuario_senha;
                 
-                //var_dump($_REQUEST);
-                
-                header("Location: ".$this->successPath); die();//chiamo la pagina di success
+                parent::route("HomeController");
             } else {
                 //prepare the popup in case of error login invalid
-                $popup = 'Usuario invalido e senha';
-                $this->loadPage($popup); //includo la view di login
+                $this->popup = 'Usuario e senha inválidos';
+                $this->loadPage($this->popup); //includo la view di login
             }
         } else {
-            $this->loadPage("error incorrect program logic"); //non è passato per la logica corretta
+            $this->loadPage("erro do programa"); //non è passato per la logica corretta
             //the passed message is only for debug
         }
     }

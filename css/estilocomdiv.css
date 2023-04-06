@@ -2,6 +2,7 @@
 body{
     background-color: #FFFFFF!important;
     color: #000000!important;
+    overflow-x: hidden;
 }
 
 .bg-color{background-color: #F7F7F7!important;}
@@ -111,4 +112,9 @@ button.bg-color-inverse:focus {
 .carousel_immage_height img{
     max-height: 500px;
     height: 50vw;
+}
+
+
+.navbarPrincipal > a{
+    color: white !important;
 }
