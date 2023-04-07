@@ -19,27 +19,27 @@ class LoginController extends MainController {
     }
 
     public function check(){
-        if(isset($_POST['submit'])){ //controllo per sicurezza
+        if(isset($_POST['submit'])){
             $this->requireDaoUsuario();
         
             $usuario_usuario =  $_POST['usuario-usuario'];
             $usuario_senha =  hash('sha256',$_POST['usuario-senha']);
             $filterCredential = array('usuario'=>$usuario_usuario,'senha'=>$usuario_senha);
         
-            if(count(getUsuarios($filterCredential)) == 1){//ho un riscontro
+            if(count(getUsuarios($filterCredential)) == 1){
         
                 $_SESSION['usuario'] = $usuario_usuario;
                 $_SESSION['senha'] = $usuario_senha;
                 
                 parent::route("HomeController");
             } else {
-                //prepare the popup in case of error login invalid
+               
                 $this->popup = 'Usuario e senha inválidos';
-                $this->loadPage($this->popup); //includo la view di login
+                $this->loadPage($this->popup);
             }
         } else {
-            $this->loadPage("erro do programa"); //non è passato per la logica corretta
-            //the passed message is only for debug
+            $this->loadPage("erro do programa"); 
+            
         }
     }
     

@@ -16,8 +16,7 @@
                     </div>
                     <input type="text"
                         class="form-control radius-0 bg-none border-none border-bottom focused validate"
-                        id="usuario-usuario" name="usuario-usuario" placeholder="Usuario">
-                    <!-- invalid to display wrong data input -->
+                        id="usuario-usuario" name="usuario-usuario" placeholder="Usuário">
                 </div>
             </div>
         </div>
@@ -28,9 +27,8 @@
                         <div class="input-group-text radius-50 bg-none border-none"><label
                                 class="fas fa-key flat-icon"></label></div>
                     </div>
-                    <input type="" class="form-control radius-0 bg-none border-none border-bottom focused validate"
+                    <input type="password" class="form-control radius-0 bg-none border-none border-bottom focused validate"
                         id="usuario-senha" name="usuario-senha" placeholder="Senha">
-                    <!-- invalid to display wrong data input -->
                 </div>
             </div>
         </div>

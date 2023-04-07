@@ -46,7 +46,6 @@
                     <input type="text"
                         class="form-control radius-0 bg-none border-none border-bottom focused validate"
                         id="usuario-usuario" name="usuario-usuario" placeholder="Usuario">
-                    <!-- invalid to display wrong data input -->
                 </div>
             </div>
             <div class="col-12 col-md-6">
@@ -58,53 +57,46 @@
                     <input type="password"
                         class="form-control radius-0 bg-none border-none border-bottom focused validate"
                         id="usuario-senha" name="usuario-senha" placeholder="Senha">
-                    <!-- invalid to display wrong data input -->
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class="col-12 col-md-6">
-                <div class="input-group mb-2 txt-dark m-t-10" field="Estado">
+            <div class="col-12 col-md-12">
+                <div class="mb-2 txt-dark m-t-10 d-flex flex-row justify-content-center align-items-center" field="Estado">
                     <div class="input-group-prepend">
                         <div class="input-group-text radius-50 bg-none border-none"><label
                                 class="fas fa-map-marked-alt flat-icon"></label></div>
                     </div>
-
-                    <div class="md-select form-control radius-0 bg-none border-none border-bottom focused">
-                        <label>Estado</label>
-                        <select name="usuario-estado" id="usuario-estado" class="validate">
-                            <option value="">Selecione uma opção</option>
-                            <?php
-                              if(isset($this->estados)){
-                                foreach($this->estados as $row){
-                                  echo "<option value=".$row->idEstado.">".$row->nome."</option>";
-                                }
-                              }
-                            ?>
-                        </select>
-                    </div>
+                    <label for="usuario-estado" class="mx-1" style="margin-bottom: 0">Estado:</label>
+                    <select name="usuario-estado" id="usuario-estado" class="validate" style="flex: 1">
+                        <option value="">Selecione uma opção</option>
+                        <?php
+                            if(isset($this->estados)){
+                            foreach($this->estados as $row){
+                                echo "<option value=".$row->idEstado.">".$row->nome."</option>";
+                            }
+                            }
+                        ?>
+                    </select>
                 </div>
             </div>
-            <div class="col-12 col-md-6">
-                <div class="input-group mb-2 txt-dark m-t-10" field="Cidade">
+            <div class="col-12 col-md-12">
+                <div class="mb-2 txt-dark m-t-10 d-flex justify-content-center align-items-center" field="Cidade">
                     <div class="input-group-prepend">
                         <div class="input-group-text radius-50 bg-none border-none"><label
                                 class="fas fa-map-marker-alt flat-icon"></label></div>
                     </div>
-
-                    <div class="md-select form-control radius-0 bg-none border-none border-bottom focused">
-                        <label>Cidade</label>
-                        <select name="usuario-cidade" id="usuario-cidade" class="validate">
-                            <option value="">Selecione uma opção</option>
-                            <?php
-                              if(isset($this->cidades)){
-                                foreach($this->cidades as $row){
-                                  echo "<option value=".$row->idCidade.">".$row->nome."</option>";
-                                }
-                              }
-                            ?>
-                        </select>
-                    </div>
+                    <label for="usuario-cidade" class="mx-1" style="margin-bottom: 0">Cidade:</label>
+                    <select name="usuario-cidade" id="usuario-cidade" class="validate" style="flex: 1">
+                        <option value="">Selecione uma opção</option>
+                        <?php
+                            if(isset($this->cidades)){
+                            foreach($this->cidades as $row){
+                                echo "<option value=".$row->idCidade.">".$row->nome."</option>";
+                            }
+                            }
+                        ?>
+                    </select>
                 </div>
             </div>
         </div>
@@ -140,6 +132,12 @@
         <div class="row btn-color-cyan btn-txt-color-light btn-txt-color-light-hover">
             <button type="submit" name="submit" class="mx-auto btn waves-button waves-float waves-teal radius-50"
                 id="startValidate">Criar um usuário</button>
+        </div>
+
+        
+        
+        <div class="row">
+            <a href="login" class="text-center link" style="background-color: transparent; border: none;">Já tenho um usuário</button>
         </div>
     </div>
 </form>

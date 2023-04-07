@@ -72,6 +72,40 @@ function insertProduto($produto){
 }
 
 
+function updateProduto($produto){
+
+    $query = "UPDATE Produto
+    SET nome = :nome,
+    descricao = :descricao,
+    codigoDeBarras = :codigoDeBarras,
+    imagem = :imagem,
+    imagemType = :imagemType,
+    fabricante = :fabricante,
+    validade = :validade
+    WHERE idProduto = :idProduto
+    ";
+
+    unset($parameters);
+    $parameters = array(
+        "idProduto" => $produto->idProduto,
+        "nome" => $produto->nome,
+        "descricao" => $produto->descricao,
+        "codigoDeBarras" => $produto->codigoDeBarras,
+        "imagem" => $produto->imagem,
+        "imagemType" => $produto->imagemType,
+        "fabricante" => $produto->fabricante,
+        "validade" => $produto->validade
+    );
+
+    if(Database::execute($query, $parameters)){
+        return true;
+    }
+    // Se der problema na inserção, retorna false;
+    return false;
+}
+
+
+
 function getProdutos($parametersValues = null){
     $queryColums = [
                     "idProduto",

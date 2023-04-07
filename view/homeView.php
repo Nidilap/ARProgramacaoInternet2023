@@ -1,7 +1,7 @@
 <div class="block"></div>
 <div class="row d-flex justify-content-center mt-3">
     <div class="col-lg-5 col-sm-12">
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalFormProduto"
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalFormProduto" onclick="clearAllInputs()"
             style="width: 100%">
             Criar novo produto
         </button>
@@ -26,7 +26,10 @@
                             <p class="card-text">' . $row->descricao . '</p>
                             <p class="card-text"><strong>Fabricante: </strong>' . $row->fabricante . '</p>
                             <p class="card-text"><strong>Validade: </strong>' . $row->validade . '</p>
-                            <button onClick="removerProduto(' . $row->idProduto . ')" class="btn btn-primary">Remover</button>
+                            <div class="d-flex justify-content-center">
+                                <button onClick="onEditProduto(' . $row->idProduto . ')" class="btn btn-primary mx-2">Editar</button>
+                                <button onClick="removerProduto(' . $row->idProduto . ')" class="btn btn-danger mx-2">Remover</button>
+                            </div>
                         </div>
                     </div>
                 </div>';
@@ -39,8 +42,7 @@
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
 
-        <form id="formProduto" style="width: 100%"
-            method="post" enctype="multipart/form-data">
+        <form id="formProduto" style="width: 100%" method="post" enctype="multipart/form-data">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLongTitle">Criar Produto</h5>
@@ -110,7 +112,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                    <button type="button" name="submit" id="botaoSaveProduto" class="btn btn-primary" onclick="adicionarProduto()">Salvar</button>
+                    <button type="button" name="submit" id="botaoSaveProduto" class="btn btn-primary"
+                        onclick="salvarProduto()">Salvar</button>
                     <!-- <button type="submit" class="mx-auto btn waves-button waves-float waves-teal radius-50"
                 id="startValidate">Criar um usuário</button> -->
                 </div>
@@ -121,21 +124,68 @@
 
 
 <script type="text/javascript">
+
+function clearAllInputs() {
+    let listaInputs = ['produto-idProduto', 'produto-nome', 'produto-descricao', 'produto-fabricante', 'produto-validade', 'produto-imagem'];
+    listaInputs.map((inputAtual) => {
+        $(`[name='${inputAtual}']`).val('');
+    })
+}
+
+function onEditProduto(idProduto) {
+    $.post("index.php?controller=HomeController&action=getProdutoEspecifico", {
+            idProduto: idProduto
+        },
+        function(data, status) {
+            let temp = data.match(new RegExp("HomeController(.*)HomeController"));
+            data = temp !== null ? temp[1] : null;
+            // pega os dados e salva numa lista
+            if (data !== null) {
+
+                let produto = JSON.parse(data)
+                $("[name=produto-idProduto]").val(produto.idProduto);
+                $("[name=produto-nome]").val(produto.nome);
+                $("[name=produto-descricao]").val(produto.descricao);
+                $("[name=produto-fabricante]").val(produto.fabricante);
+                $("[name=produto-validade]").val(produto.validade);
+
+                if(produto.imagem && produto.imagemType) {
+
+                    // let b64 = `data:${produto.imagemType};base64,${produto.imagem}`;
+
+                    var blob = b64toBlob(produto.imagem, produto.imagemType);
+                    var file = new File([blob], 'imagemSalva', {type: produto.imagemType});
+
+                    const dataTransfer = new DataTransfer();
+
+                    dataTransfer.items.add(file);
+
+                    const inputFile = document.querySelector('input[name="produto-imagem"]');
+
+                    inputFile.files = dataTransfer.files;
+
+                    $("#modalFormProduto").modal('show');
+                }
+            }
+            
+        });
+}
+
 function removerProduto(idProduto) {
     $.post("index.php?controller=HomeController&action=removeProdutoController", {
             idProdutoToRemove: idProduto
         },
         function(data, status) {
             location.reload();
-        });   
+        });
 }
 
-function adicionarProduto() {
-    debugger
+function salvarProduto() {
     $("#formProduto .validate").each(function() {
         validateField($(this));
     });
 
+    let idProduto = $("[name=produto-idProduto]").val();
     let nomeProduto = $("[name=produto-nome]").val();
     let descricaoProduto = $("[name=produto-descricao]").val();
     let fabricanteProduto = $("[name=produto-fabricante]").val();
@@ -150,19 +200,20 @@ function adicionarProduto() {
         const fileType = file.type;
 
         $.post("index.php?controller=HomeController&action=saveProduto", {
-            nome: nomeProduto,
-            descricao: descricaoProduto,
-            fabricante: fabricanteProduto,
-            validade: validadeProduto,
-            imagemProduto: base64String,
-            imagemTipoProduto: fileType
-        },
-        function(data, status) {
-            location.reload();
-        });  
+                idProduto: idProduto,
+                nome: nomeProduto,
+                descricao: descricaoProduto,
+                fabricante: fabricanteProduto,
+                validade: validadeProduto,
+                imagemProduto: base64String,
+                imagemTipoProduto: fileType
+            },
+            function(data, status) {
+                location.reload();
+            });
     }
 
     reader.readAsDataURL(file);
- 
+
 }
 </script>

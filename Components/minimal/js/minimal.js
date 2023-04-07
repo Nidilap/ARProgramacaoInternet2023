@@ -17,7 +17,7 @@ function validateField(item) {
     var type = item.attr("type");
     var invalid = false;
 
-    if (value !== "") { //imposta il nome del campo visibile o invisibile se c'è del testo o no
+    if (value !== "") {
         item.parent().addClass("before-visible");
     } else if (value === "") {
         item.parent().removeClass("before-visible");
@@ -47,14 +47,14 @@ function validateField(item) {
     } else if (type === "file") {
         if (value === "") { //email validator
             invalid = true;
-            item.siblings().addClass("invalid"); // perche bootstrap usa un contenitore con l'input e il div di output quindi inserisco invalid a tutti i siblings (override del metodo sotto)
+            item.siblings().addClass("invalid");
         } else {
             item.siblings().removeClass("invalid");
         }
     } else if (type === "select" || item.prop("tagName").toLowerCase() === 'select') {
         if (value === "") { //email validator
             invalid = true;
-            item.siblings().addClass("invalid"); // perche bootstrap usa un contenitore con l'input e il div di output quindi inserisco invalid a tutti i siblings (override del metodo sotto)
+            item.siblings().addClass("invalid");
         } else {
             item.siblings().removeClass("invalid");
         }
@@ -62,19 +62,44 @@ function validateField(item) {
     //  
     //}
     if (invalid) {
-        if (item.parent().parent().find(".invalidButton").length === 0) { // controllo se non ce gia un altro alert
+        if (item.parent().parent().find(".invalidButton").length === 0) { 
             item.addClass("invalid");
             item.parent().parent().prepend("<label class='invalidButton fa fa-exclamation float-icon waves-circle waves-float bg-danger op-0-6 invalidIcon' for=" + item.attr("id") + " onclick='removeItem(this);'></label>");
         }
-        event.preventDefault(); //blocco l'invio del form
+        event.preventDefault();
         return false;
     } else {
-        removeItem(item.parent().parent().find(".invalidButton")); //rimuove tutti gli alert del input box selezionato se il testo e valido
+        removeItem(item.parent().parent().find(".invalidButton"));
         item.removeClass("invalid");
         return true;
     }
     //alert("OK");
 }
+
+function b64toBlob(b64Data, contentType, sliceSize) {
+    contentType = contentType || '';
+    sliceSize = sliceSize || 512;
+  
+    var byteCharacters = atob(b64Data);
+    var byteArrays = [];
+  
+    for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+      var slice = byteCharacters.slice(offset, offset + sliceSize);
+  
+      var byteNumbers = new Array(slice.length);
+      for (var i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+  
+      var byteArray = new Uint8Array(byteNumbers);
+  
+      byteArrays.push(byteArray);
+    }
+  
+    var blob = new Blob(byteArrays, {type: contentType});
+    return blob;
+  }
+
 
 jQuery.document_ready (function() {
     //init Waves mode for compoent
@@ -85,7 +110,7 @@ jQuery.document_ready (function() {
 
     $('[data-toggle="tooltip"]').tooltip()
 
-    $(".validate").on("change paste keyup select", function() { //hadler for event on input field
+    $(".validate").on("change paste keyup select", function() { 
         validateField($(this));
     });
 

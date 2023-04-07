@@ -67,6 +67,10 @@ class MainController
         include ($pageToLoad);
         include ("./templates/footerTemp.php");
     }
+
+    public function deslogar() {
+        session_unset();
+    }
 }
 
 ?>

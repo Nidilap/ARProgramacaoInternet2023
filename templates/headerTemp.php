@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="pt-br">
-  <head>
+
+<head>
     <title>AR Programacao Internet</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -16,13 +17,13 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="Components/bootstrap/4.2/css/bootstrap.css">
     <script src="Components/bootstrap/4.2/js/bootstrap.min.js"></script>
-    
+
     <link rel="stylesheet" href="css/generalstyles.css"><!-- block-selection-->
     <link rel="stylesheet" href="css/estilocomdiv.css">
     <link rel="stylesheet" href="css/util.css">
-    
+
     <link rel="stylesheet" href="Components/fontAWESOME/css/all.css">
-    
+
     <!-- minimal Framework -->
     <link rel="stylesheet" href="Components/minimal/css/minimal.css">
     <script type="text/javascript" src="Components/minimal/js/minimal.js"></script>
@@ -39,14 +40,15 @@
     <!-- POPUP -->
     <link rel="stylesheet" type="text/css" href="Components/popup/css/popup.css">
     <script src="Components/popup/js/popup.js"></script>
-  </head>
-  <body>
+</head>
+
+<body>
     <?php 
-    
       $usuario = $_SESSION ? $_SESSION['usuario'] : null;
       if(isset($usuario)) {        
         echo '<nav class="navbar navbar-light bg-primary justify-content-between navbarPrincipal">
           <a class="navbar-brand">Produtos</a>
+          <button class="btn btn-secondary" onclick="deslogar()"> Deslogar </button>
         </nav>';
       }
     ?>
@@ -55,3 +57,14 @@
         echo("<div id='overlay' onclick='closePopup();'><div id='text'>".$this->popup."</div></div>");
       }
     ?>
+    <script type="text/javascript">
+      
+     function deslogar() {
+      $.post("index.php?controller=MainController&action=deslogar", {
+        },
+        function(data, status) {
+          location.reload();
+        }); 
+     }
+
+    </script>

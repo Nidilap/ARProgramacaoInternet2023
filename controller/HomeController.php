@@ -17,12 +17,16 @@ class HomeController extends MainController {
     private function requireDaoProduto(){
         require_once $this->modelProduto;
     }
+
+    private function JsonEncoder($arr){
+        $jsonEncode = json_encode($arr);
+        return "HomeController".$jsonEncode."HomeController";
+    }
     
 
     public function saveProduto(){
         $this->requireDaoProduto();
-
-
+        $result = false;
 
         $produto = new Produto(
             $_POST['idProduto'], 
@@ -33,8 +37,13 @@ class HomeController extends MainController {
             $_POST['imagemTipoProduto'],
             $_POST['fabricante'], 
             $_POST['validade']);
+            
+        if($_POST['idProduto']) { // Caso haver um id, apenas atualizar.
+            $result = updateProduto($produto);
+        } else {    
+            $result = insertProduto($produto);
+        }
 
-        $result = insertProduto($produto);
 
         if ($result === false) {
             $this->popup = ':( Ocorreu um problema ao cadastrar';
@@ -43,6 +52,54 @@ class HomeController extends MainController {
             $this->popup = 'Produto inserido com sucesso!';
             $this->loadPage($this->popup);
         }
+    }
+
+    public function updateProduto(){
+
+        $idProdutoToEdit = $_POST['idProduto'];
+
+        $result = insertProduto($produto);
+
+                
+        $index = array_search($idProdutoToEdit, array_column($this->produtos, 'idProduto'));
+
+        if ($index !== false) {
+
+            $produtoToEdit = $this->produto[$index];
+
+            $produto = new Produto(
+                $_POST['idProduto'], 
+                $_POST['nome'], 
+                $_POST['descricao'], 
+                '', 
+                $_POST['imagemProduto'], 
+                $_POST['imagemTipoProduto'],
+                $_POST['fabricante'], 
+                $_POST['validade']);
+    
+            $result = insertProduto($produto);
+    
+            if ($result === false) {
+                $this->popup = ':( Ocorreu um problema ao cadastrar';
+                $this->loadPage($this->popup);
+            } else {
+                $this->popup = 'Produto inserido com sucesso!';
+                $this->loadPage($this->popup);
+            }
+            
+            if ($result === false) {
+                $this->popup = ':( Ocorreu um problema ao cadastrar';
+                $this->loadPage($this->popup);
+            } else {
+                $this->popup = 'Produto inserido com sucesso!';
+                $this->loadPage($this->popup);
+            }
+        } else {
+            $this->popup = 'Não foi possível atualizar!';
+            $this->loadPage($this->popup);
+        }
+
+
             
     }
 
@@ -65,6 +122,14 @@ class HomeController extends MainController {
         }
     }  
 
+    public function getProdutoEspecifico() {
+        
+        $this->requireDaoProduto();
+        $produto = getProdutos(array("idProduto" => $_POST["idProduto"]))[0];
+
+        $dadosEncodados = $this->JsonEncoder($produto);
+        echo $dadosEncodados;
+    }
 
 }
 
